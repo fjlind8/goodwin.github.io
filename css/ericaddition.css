@@ -1,0 +1,22 @@
+#ExploreViz {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    padding: 10px;
+    border: 5px solid teal;
+}
+
+.inspirer {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+/*
+.float_center {
+  float: right;
+  position: relative;
+  left: -50%;
+  text-align: left;
+}
+*/
