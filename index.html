@@ -32,6 +32,23 @@
             }
         </script>
 
+        <script type="text/javascript">
+            function initViz2() {
+                var containerDiv = document.getElementById("ExploreViz2"),
+                    url = "https://public.tableau.com/views/CurrentClassifications/CurrentClassifications?:embed=y&:display_count=yes&publish=yes"
+
+                    options = {
+                        hideTabs: true,
+                        onFirstInteractive: function () {
+                            console.log("Run this code when the viz has finished loading.");
+                        }
+                    };
+
+                // Create a viz object and embed it in the container div.
+                var viz = new tableau.Viz(containerDiv, url, options);
+            }
+        </script>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <script>
@@ -93,7 +110,7 @@
         <![endif]-->
     </head>
 
-    <body data-spy="scroll" data-target="#header" onload="initViz(); initViz2()">
+    <body data-spy="scroll" data-target="#header" onload="initViz(); initViz2();">
 
         <!--Start Hedaer Section-->
         <section id="header">
@@ -119,13 +136,12 @@
                                     <li class="active"><a href="#header">Home <span class="sr-only">(current)</span></a></li>
                                     <li><a href="#welcome">Background</a></li>
                                     <li><a href="#portfolio">Explore</a></li>
-                                    <li><a href="#counter">Facts & Figures</a></li>
+                                    <li><a href="#counter">By The Numbers</a></li>
                                     <!--<li><a href="#event">event</a></li>-->
                                     <!--<li><a href="#testimonial">testimonial</a></li>-->
                                     <li><a href="#data">Data</a></li>
-                                    <li><a href="#blog">About Us</a></li>
                                     <li><a href="#event">Get Involved</a></li>
-
+                                    <li><a href="#blog">About Us</a></li>
                                     <!--<li><a href="#contact">contact us</a></li>-->
                                 </ul>
                             </div>
@@ -328,7 +344,7 @@
                             <h2>Welcome to the GoodWin Project!</h2>
 
                             <div style="width: 805px; margin-left: auto; margin-right: auto">
-                                <p >We are a group of data science students, and are all passionate about conserving biodiversity around the world. We want to share our findings and analysis to increase knowledge of conservation and inspire action.</p>
+                                <p align="left">We are a group of data science students, and are all passionate about conserving biodiversity around the world. We want to share our findings and analysis to increase knowledge of conservation and inspire action.</p>
                             </div>
 
                             <p><br/></p>
@@ -351,8 +367,10 @@
                                     <div>
                                         <p><span style="font-weight:bold;">Jane Goodall</span></p>
                                         <div style="width: 400px;">
-                                            <p>Jane Goodall is the world's leading expert on chimpanzees. She is the founder of the <a href="http://www.janegoodall.org/">Jane Goodall Institute</a>, an organization that raises awareness and implements protection for chimpanzees and species all around the world.</p>
-                                            <p><br/></p>
+                                            <p align="left">Jane Goodall is the world's leading expert on chimpanzees. She is the founder of the <a href="http://www.janegoodall.org/">Jane Goodall Institute</a>,
+                                                an organization that raises awareness and implements protection for chimpanzees and species all around the world.
+                                                <br/><br/>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -365,17 +383,19 @@
                                     <div>
                                         <p><span style="font-weight:bold;">Steve Irwin</span></p>
                                           <div style="width: 400px;">
-                                              <p>Steve Irwin was most widely known as being "The Crocodile Hunter". He was also one of the biggest conservation activists until his death in 2006. His legacy lives on and is championed by the <a href="https://www.australiazoo.com.au/">Australia Zoo</a>.</p>
-                                              <p><br/></p>
+                                              <p align="left">Steve Irwin was most widely known as being "The Crocodile Hunter". He was also one of the biggest conservation activists until his death in 2006.
+                                                  His legacy lives on and is championed by the <a href="https://www.australiazoo.com.au/">Australia Zoo</a>.
+                                                  <br/><br/>
+                                              </p>
                                           </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <p><br/><br/></p>
+
 
                             <!--<div class="single_item">-->
-                            <h2>Educate</h2>
+                            <!--<h2>Educate</h2>-->
 
                             <p><br/></p>
 
@@ -391,13 +411,12 @@
 
                             <div style="width: 800px; margin-left: auto; margin-right: auto">
                                 <p align="left">Animal population data is hard to come by. It's not easy to access or understand. It is often incomplete, silo-ed, and messy. And, there are a little-to-no future population predictions.
-                                  Until now, qualitative risk identification for single species at a time was the only way of determining the threat level of that species becoming endangered.
-                                  We sought to create a one-stop-shop with historical populations and <span style="font-style:italic; font-weight: bold;">forecasted</span> populations calculated from our time series models.
-                                  <br/><br/>
-                                Each species has population measurements over different periods of time and with many different sampling methods. Our project takes all of this data, cleans and aggregates it, and creates a time series model
-								and forecast for each individual species.
-								<br/><br/>
-                                Other.</p>
+                                    Until now, qualitative risk identification for single species at a time was the only way of determining the threat level of that species becoming endangered.
+                                    We sought to create a one-stop-shop with historical populations and <span style="font-style:italic; font-weight: bold;">forecasted</span> populations calculated from our time series models.
+                                    <br/><br/>
+                                    Each species has population measurements over different periods of time and with many different sampling methods. Our project takes all of this data, cleans and aggregates it, and creates a time series model
+								                    and forecast for each individual species.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -416,21 +435,32 @@
                     <h2>Explore</h2>
 
                     <div style="width: 800px; margin-left: auto; margin-right:auto">
-                        <p>To examine an individual species' past and predicted populations, start by selecting a country on the map, and then a species from the generated list on the right. The population and forecast will then appear on the bottom graph.
-                        A few things to keep in mind:</p>
+                        <p align="left">Here's where we "turn you loose"! Below we have a few visualizations that demonstrate the results of our predictive model, and showcase
+                          some of the most interesting findings from our data. If you're stuck anywhere, refer to <a href="https://github.com/fjlind8/fjlind8.github.io/blob/master/README.md">our GitHub repository</a> for some walkthrough and interpretations.
 
-                        <p align="left">- There are many different ways to measure species populations. Look for the unit of measurement to the left of the population line graph.<br />
-                        - The data are not uniform across time. Certain species will have longer or more consistent periods of observation than others. This can give us an impression of the amount of resources devoted to a species.<br />
-                        - No matter what year the population data ends, we forecast each species population through 2025 so the information is relevant <span style="font-style: italic">today</span></p>
+                          <br /><br />
+
+                          In this first visual, to examine an individual species' past and predicted populations, start by selecting a country on the map, and then a species from the generated list on the right.
+                          The population and forecast will then appear on the bottom graph. A few things to keep in mind:</p>
+
+                          - There are many different ways to measure species populations. Look for the unit of measurement to the left of the population line graph.<br />
+                          - The data are not uniform across time. Certain species will have longer or more consistent periods of observation than others. This can give us an impression of the amount of resources devoted to a species.<br />
+                          - No matter what year the population data ends, we forecast each species population through 2025 so the information is relevant <span style="font-style: italic">today</span>
+                        </p>
                     </div>
                 </div>
             </div>
             <!--End of col-md-2-->
 
-            <p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
+            <p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
 
             <div id="vizDiv" align="center">
                 <div id="ExploreViz" align="center"></div>
+            </div>
+
+            <p><br /></p>
+
+            <div id="vizDiv2" align="center">
                 <div id="ExploreViz2" align="center"></div>
             </div>
 
@@ -453,7 +483,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="counter_header">
-                                <h2>Facts & Figures</h2>
+                                <h2>By The Numbers</h2>
                                 <p>Here are some quick facts about animal presences around the world.</p>
                             </div>
                         </div>
@@ -468,6 +498,17 @@
                                     <div class="counter_text">
                                         <span class="counter">6</span>
                                         <p>percent of species with any population data</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="counter_item text-center">
+                                <div class="sigle_counter_item">
+                                    <img src="img/hand.png" alt="">
+                                    <div class="counter_text">
+                                        <span class="counter">129</span>
+                                        <p>number of current critically endangered species</p>
                                     </div>
                                 </div>
                             </div>
@@ -540,12 +581,12 @@
 					<br />
 					<div class="row">
 						<div style="width: 800px; margin-left: auto; margin-right: auto">
-							<p>Our two main sources of data are the International Union for Conservation of Nature's Red List of Endangered Species and the Living Planet Index (managed by the Zoological Society of London & the World Wildlife Foundation).
+							<p align="left">Our two main sources of data are the International Union for Conservation of Nature's Red List of Endangered Species and the Living Planet Index (managed by the Zoological Society of London & the World Wildlife Foundation).
 							The population data we used came from the Living Planet Index's data portal, which is an accumulation of thousands of studies and publications of wildlife data. The IUCN Red List is the organization responsible for assessing
 							and assigning an endangerment level to each species. It has a wealth of information about habitats, threats, and conservations efforts for each species. With the IUCN assessment data we can get a general idea of population
 							data by looking at assessments over time (if a species has been assessed more than once).
 
-							<br />
+							<br /><br />
 
 							While we can glean great insights from population information for species with a long history of consistent and well recorded data, there are many other species where this is simply not the reality.
 							Though usually lack of data is a dead end for many projects, in relevance to animal conservation, lack of data for species is an important insight on its own, and a potentially crucial one too.
@@ -555,9 +596,11 @@
 							<p align="left">- No funding for some years<br />
 							- Inability to measure population in certain locations<br />
 							- Organizations don’t want to publicize information about a threatened and hunted species
-							- Simply no research is being conducted on that species<br /></p>
+							- Simply no research is being conducted on that species
 
-							<p><br />One of the greatest challenges in animal conservation is not knowing what we don’t know. Our project has helped us identify some of these kinds of things.
+							<br /><br />
+
+              One of the greatest challenges in animal conservation is not knowing what we don’t know. Our project has helped us identify some of these kinds of things.
 							But identification of these species and their lack of population data sheds light to the areas of conservation that have yet to be explored and give upcoming conservationists new adventures to tackle.
 							</p>
 
@@ -570,116 +613,6 @@
 
 
 
-        <!--Start of blog-->
-        <section id="blog">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="latest_blog text-center" style="width: 800px; margin-left: auto; margin-right: auto">
-                            <h2>About Us</h2>
-                            <p>We are a group of students in the UC Berkeley Master of Information and Data Science (MIDS) program.
-                            The GoodWin Project is a culmination of what we have learned in the program, from data wrangling, modeling,
-                            and visualization, all connected back to a cause that matters to the three of us - conservation.</p>
-                        </div>
-                    </div>
-                </div>
-                <!--End of row-->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="blog_news">
-                            <div class="single_blog_item">
-                                <div class="blog_img">
-                                    <img src="img/victoria.jpeg" alt="">
-                                </div>
-                                <div class="blog_content">
-                                    <h3>Victoria Baker</h3>
-
-                                    <div class="expert" style="font-weight: bold">
-                                        Quantitative Analyst at Tennessee Valley Authority
-                                    </div>
-
-                                    <div class="left-side text-left">
-                                        <p class="left_side">
-                                            <a href="https://www.linkedin.com/in/vivalasvictoria/">
-                                              <img src="img/LinkedIn.png" style="width: 10%; height: 10%;"></a>
-                                            <a href="mailto:victoria.baker@ischool.berkeley.edu"><span class="right_msg text-right">
-                                                <img src="img/gmail.png" style="width: 10%; height: 10%;"></i></span></a>
-                                        </p>
-                                    </div>
-
-                                    <p class="blog_news_content"><br />Victoria has a background in software engineering but has found her true passion in data science.
-				                                       After graduate school, she plans to travel and train for her black belt. Her favorite animals are the polar bear and the pangolin. </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End of col-md-4-->
-                    <div class="col-md-4">
-                        <div class="blog_news">
-                            <div class="single_blog_item">
-                                <div class="blog_img">
-                                    <img src="img/eric.jpeg" alt="">
-                                </div>
-                                <div class="blog_content">
-                                    <h3>Eric Lind</h3>
-
-                                    <div class="expert" style="font-weight: bold">
-                                        <p>Sr. Data Analyst at Capital One<br /><br /></p>
-                                    </div>
-
-                                    <div class="left-side text-left">
-                                        <p class="left_side">
-                                            <a href="https://www.linkedin.com/in/eric-lind-44849947/">
-                                                <img src="img/LinkedIn.png" style="width: 10%; height: 10%;"></a>
-                                            <a href="mailto:fjlind8@berkeley.edu"><span class="right_msg text-right">
-                                                <img src="img/gmail.png" style="width: 10%; height: 10%;"></i></span></a>
-                                        </p>
-                                    </div>
-
-                                    <p class="blog_news_content"><br />Eric has a background in Applied Mathematics, and now Data Science!
-                                      He loves cooking, hiking, and Planet Earth documentaries. His favorite animals are the cheetah, peregrine falcon, and giant squid.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End of col-md-4-->
-                    <div class="col-md-4">
-                        <div class="blog_news">
-                            <div class="single_blog_item">
-                                <div class="blog_img">
-                                    <img src="img/divya.jpeg" alt="">
-                                </div>
-                                <div class="blog_content">
-                                    <h3>Divya Sriram</h3>
-
-                                    <div class="expert" style="font-weight: bold">
-                                        Associate Analyst on the People Analytics Team at Atlassian
-                                    </div>
-
-                                    <div class="left-side text-left">
-                                        <p class="left_side">
-                                            <a href="https://www.linkedin.com/in/divyasriram/">
-                                              <img src="img/LinkedIn.png" style="width: 10%; height: 10%;"></a>
-                                            <a href="mailto:fjlind8@berkeley.edu"><span class="right_msg text-right">
-                                                <img src="img/gmail.png" style="width: 10%; height: 10%;"></i></span></a>
-                                        </p>
-                                    </div>
-
-                                    <p class="blog_news_content"><br /> Divya has a BS in Molecular Biology from UC San Diego and
-					    is working towards a Masters in Data Science at UC Berkeley. She loves to dance, do yoga, and engage in good conversation.
-					    Her favorite animals are the blue footed booby and the sea turtle! </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End of col-md-4-->
-                </div>
-                <!--End of row-->
-            </div>
-            <!--End of container-->
-        </section>
-        <!-- end of blog-->
-
         <!--start of event-->
         <section id="event">
             <div class="container">
@@ -689,7 +622,7 @@
                             <h2>Get Involved</h2>
 
                             <div style="width: 800px; margin-left: auto; margin-right: auto">
-                              <p>We hope you learned a lot about species populations from our project. While educating is our main goal,
+                              <p align="left">We hope you learned a lot about species populations from our project. While educating is our main goal,
                                 we ultimately want to encourage you to get involved either in your local communities through volunteering, or by
                                 donating to some of the great causes around the world. Below are a few of our favorite conservation
                                 organizations.</p>
@@ -807,6 +740,117 @@
         </section>
         <!--end of event-->
 
+
+
+        <!--Start of blog-->
+        <section id="blog">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="latest_blog text-center" style="width: 800px; margin-left: auto; margin-right: auto">
+                            <h2>About Us</h2>
+                            <p>We are a group of students in the UC Berkeley Master of Information and Data Science (MIDS) program.
+                            The GoodWin Project is a culmination of what we have learned in the program, from data wrangling, modeling,
+                            and visualization, all connected back to a cause that matters to the three of us - conservation.</p>
+                        </div>
+                    </div>
+                </div>
+                <!--End of row-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="blog_news">
+                            <div class="single_blog_item">
+                                <div class="blog_img">
+                                    <img src="img/victoria.jpeg" alt="">
+                                </div>
+                                <div class="blog_content">
+                                    <h3>Victoria Baker</h3>
+
+                                    <div class="expert" style="font-weight: bold">
+                                        Quantitative Analyst at Tennessee Valley Authority
+                                    </div>
+
+                                    <div class="left-side text-left">
+                                        <p class="left_side">
+                                            <a href="https://www.linkedin.com/in/vivalasvictoria/">
+                                              <img src="img/LinkedIn.png" style="width: 10%; height: 10%;"></a>
+                                            <a href="mailto:victoria.baker@ischool.berkeley.edu"><span class="right_msg text-right">
+                                                <img src="img/gmail.png" style="width: 10%; height: 10%;"></i></span></a>
+                                        </p>
+                                    </div>
+
+                                    <p class="blog_news_content"><br />Victoria has a background in software engineering but has found her true passion in data science.
+				                                       After graduate school, she plans to travel and train for her black belt. Her favorite animals are the polar bear and the pangolin. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of col-md-4-->
+                    <div class="col-md-4">
+                        <div class="blog_news">
+                            <div class="single_blog_item">
+                                <div class="blog_img">
+                                    <img src="img/eric.jpeg" alt="">
+                                </div>
+                                <div class="blog_content">
+                                    <h3>Eric Lind</h3>
+
+                                    <div class="expert" style="font-weight: bold">
+                                        <p>Sr. Data Analyst at Capital One<br /><br /></p>
+                                    </div>
+
+                                    <div class="left-side text-left">
+                                        <p class="left_side">
+                                            <a href="https://www.linkedin.com/in/eric-lind-44849947/">
+                                                <img src="img/LinkedIn.png" style="width: 10%; height: 10%;"></a>
+                                            <a href="mailto:fjlind8@berkeley.edu"><span class="right_msg text-right">
+                                                <img src="img/gmail.png" style="width: 10%; height: 10%;"></i></span></a>
+                                        </p>
+                                    </div>
+
+                                    <p class="blog_news_content"><br />Eric has a background in Applied Mathematics, and now Data Science!
+                                      He loves cooking, hiking, and Planet Earth documentaries. His favorite animals are the snow leopard, peregrine falcon, and giant squid.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of col-md-4-->
+                    <div class="col-md-4">
+                        <div class="blog_news">
+                            <div class="single_blog_item">
+                                <div class="blog_img">
+                                    <img src="img/divya.jpeg" alt="">
+                                </div>
+                                <div class="blog_content">
+                                    <h3>Divya Sriram</h3>
+
+                                    <div class="expert" style="font-weight: bold">
+                                        Associate Analyst on the People Analytics Team at Atlassian
+                                    </div>
+
+                                    <div class="left-side text-left">
+                                        <p class="left_side">
+                                            <a href="https://www.linkedin.com/in/divyasriram/">
+                                              <img src="img/LinkedIn.png" style="width: 10%; height: 10%;"></a>
+                                            <a href="mailto:fjlind8@berkeley.edu"><span class="right_msg text-right">
+                                                <img src="img/gmail.png" style="width: 10%; height: 10%;"></i></span></a>
+                                        </p>
+                                    </div>
+
+                                    <p class="blog_news_content"><br /> Divya has a BS in Molecular Biology from UC San Diego and
+					    is working towards a Masters in Data Science at UC Berkeley. She loves to dance, do yoga, and engage in good conversation.
+					    Her favorite animals are the blue footed booby and the sea turtle! </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of col-md-4-->
+                </div>
+                <!--End of row-->
+            </div>
+            <!--End of container-->
+        </section>
+        <!-- end of blog-->
 
 
 

@@ -3,7 +3,23 @@
     margin-right: auto;
     width: 1200px;
     padding: 10px;
+    border: 5px solid green;
+}
+
+#vizDiv2 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    padding: 10px;
     border: 5px solid teal;
+}
+
+#vizDiv3 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    padding: 10px;
+    border: 5px solid skyblue;
 }
 
 .inspirer {
