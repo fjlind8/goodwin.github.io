@@ -1,0 +1,420 @@
+---
+title: "Untitled"
+author: "Victoria Baker"
+date: "October 22, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(xts)
+library(xtable) # pretty printout
+library(stargazer) # pretty printout
+library(ggplot2)
+library(forecast)
+library(astsa)
+library(dplyr)
+library(Hmisc)
+library(reshape)
+library(readr)
+
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# The GoodWin Project
+
+Welcome to the GoodWin project codebase! The following code is what was used to build the time series models and create the forecasts displayed on our webpage.
+
+## Data
+
+The section below contains code to compile the base dataset (which is now saved and loaded directly), and test code. The comments describe what is contained in each dataset.
+
+### IUCN Data
+
+```{r}
+#IUCN data
+#speciesData file contains all species and their CURRENT assessment
+species <- read.csv("speciesData.csv", header = TRUE, sep=",")
+speciesCleaned = species %>%
+  group_by(scientific_name) %>%
+  mutate(taxidMax = max(taxonid)) %>%
+  ungroup() %>%
+  filter(taxidMax == taxonid)
+
+#speciesHistory contains all assessments for each species over time
+speciesHistory_orig <- read.csv("speciesHistory.csv", header = TRUE, sep=",")
+names(speciesCleaned)[names(speciesCleaned) == 'taxonid'] = 'taxonId'
+speciesHistory_orig = merge(speciesHistory_orig, speciesCleaned, by = "taxonId", all.x = TRUE)
+
+speciesHistory = speciesHistory_orig %>%
+  select(taxonId, scientific_name, year, category.x, code)
+
+names(speciesHistory)[names(speciesHistory) == 'category.x'] = 'category'
+write.csv(speciesHistory, file= "IUCNClassificationHistory.csv")
+
+```
+
+
+### Living Planet Data
+```{r}
+#Living Planet Index population data
+lpi_orig <- read.csv("LPI_LPR2016data_public.csv", header = TRUE, sep=",")
+vars = c('Reference', 'Class', 'Order', 'Family', 'Genus', 'Species', 'Subspecies', 'Authority', 'Location', 'All_countries',
+                          'Region', 'Specific_location')
+lpi = lpi_orig[ , !(names(lpi_orig) %in% vars)]
+lpi = melt(lpi, id=c('ID', 'Binomial', 'Common_name', 'Country', 'Latitude', 'Longitude', 'System', 'T_realm', 'T_biome', 'FW_realm',
+                          'FW_biome', 'M_realm', 'M_ocean', 'M_biome', 'Units', 'Method'))
+lpi$year = as.integer(substring(lpi$variable, 2))
+lpi$population = lpi$value
+lpi[is.na(lpi$population)] <- 0
+lpi$population = as.numeric(as.character(lpi$population))
+lpi = lpi[!(is.na(lpi$population)), ]
+lpi$scientific_name = gsub("_", " ", lpi$Binomial)
+
+#cleaned LPI population data
+write.csv(lpi, file= "LivingPlanetIndex_clean.csv")
+
+#inner join between LPI and IUCN based on scientific name
+joined = merge(speciesCleaned, lpi, by = "scientific_name")
+
+#can skip code to create and just call the saved files
+joined <- read.csv("LPIandIUCN_joined.csv", header = TRUE, sep=",")
+lpi <- read.csv("LivingPlanetIndex_clean.csv", header=TRUE, sep=",")
+
+```
+
+### Model output files
+
+The following files are from the most recent iteration of the model that uses all data available in the Living Planet Index dataset (whether or not it has been assessed by IUCN)
+*NOTE*: This code will not work until after the full model has been run
+```{r}
+#time Series forecasts contains each species that has been run through the model, the forecast, and the confidence intervals
+forecasts = read.csv("timeSeriesForecasts_all.csv", header=TRUE, sep=",")
+
+#time series metadata contains each species that has been run through the model,
+#total number of records, number of records used in model, the earliest and latest year we have data,
+#and whether the model for that species passed the shapiro and box-ljung test
+metadata = read.csv("timeSeriesMetadata_all.csv", header=TRUE, sep=",")
+
+#trainingData contains each species that has been run through the model and the accompanying population data that was put into the model
+training = read.csv("trainingData_all.csv", header=TRUE, sep=",")
+
+#this file was created in the IUCN section
+classification = read.csv("IUCNClassificationHistory.csv", header=TRUE, sep=",")
+
+#forecasts and trainingData shouldn't have any overlap, so we should jsut be able to union those together
+#names(forecasts)[names(forecasts) == 'ID'] = 'taxonid'
+training = training %>%
+  select(scientific_name, Common_name, NewUnit, year, population, interpolated)
+forecasts = forecasts %>%
+  select(year, scientific_name, Common_name, Point.Forecast, Lo.80, Hi.80, Lo.95, Hi.95)
+
+
+#master dataset contains population data fed into time series model,
+#the result forecast and confidence intervals,
+#and the IUCN assessments, all together
+master = merge(training, forecasts, by=c("scientific_name", "Common_name", "year"), all = TRUE)
+master = master %>%
+  select(scientific_name, Common_name, NewUnit, year, population, interpolated, 
+         Point.Forecast, Lo.80, Hi.80, Lo.95, Hi.95)
+#names(master)[names(master) == 'ID'] = 'taxonId'
+
+master = merge(master, classification, by = c("scientific_name", "year"), all.x=TRUE)
+master = master %>%
+  select(scientific_name, Common_name, NewUnit, year, population, interpolated, 
+         Point.Forecast, Lo.80, Hi.80, Lo.95, Hi.95, category, code)
+names(master)[names(master) == 'scientific_name.x'] = 'scientific_name'
+
+write.csv(master, file= "masterData_all.csv")
+```
+
+Testing datasets with one species
+```{r}
+a = master[master$Common_name == 'American crocodile', ]
+b = training[training$Common_name == 'American crocodile', ]
+c = classification[classification$scientific_name == 'Crocodylus acutus', ]
+d = joined[joined$Common_name == 'American crocodile', ]
+
+```
+
+Dataset to examine which species have been assessed the most
+```{r}
+#dataset to look at how many times each species has been assessed
+mostHistory = speciesHistory %>%
+  count(taxonId, scientific_name)
+
+lpi_names = lpi %>%
+  distinct(scientific_name, Common_name)
+
+mostHistory = merge(mostHistory, lpi_names, by = "scientific_name", all.x=TRUE)
+mostHistory = mostHistory[!is.na(mostHistory$Common_name),]
+mostHistory = merge(mostHistory, metadata, by="scientific_name", all.x=TRUE)
+
+```
+
+
+## Testing section
+The following section will create a time series model for a single species
+
+```{r}
+test = joined[which(joined$Common_name == 'American crocodile'), ]
+test = test %>% group_by(scientific_name, taxonid, Common_name, Units, year) %>% summarise(population.y = sum(population.y))
+hist(test$population.y)
+```
+
+```{r}
+test
+```
+
+```{r}
+minYear = min(test$year)
+maxYear = max(test$year)
+print(minYear)
+print(maxYear)
+```
+
+```{r}
+pop <- ts(test$population.y, frequency = 1, start = c(minYear), end=c(maxYear)) # Create time-series object
+par(mfrow = c(1,2)) 
+plot.ts(pop,main = "Population as Time-Series")
+
+acf(pop, lag.max = 120)
+pacf(pop, lag.max = 120)
+Box.test(pop, type = "Ljung-Box")
+```
+
+```{r}
+auto = auto.arima(pop, trace=FALSE, ic="aic", stepwise=FALSE, approximation=FALSE)
+f = forecast(auto, h=15)
+plot(f)
+
+shapiro.test(auto$residuals)
+Box.test(auto$residuals, type = "Ljung-Box")
+```
+
+```{r}
+his = speciesHistory[speciesHistory$taxonId == 5659,]
+his
+```
+
+
+## The Main Event
+
+This is the loop that generates the forecasts and metadata files that most of our visualizations are based on.
+
+Notes:
+- Originally, we built the model to only use data from species that have been assessed. I.e., species that had both 1. Living Planet Index population data, and 2. IUCN data (the $joined$ dataset created earlier in this file). We ultimately decided to assess *all* species that had population data, regardless of whether or not they had been assessed by IUCN.
+
+- There are some rare cases where the Living Planet Index dataset has more than one scientific name for the same common name. In those cases, we just choose the first one in the dataset to model off of. A future improvement could be to keep both of those entries or see which one has the most data points to act as a tie-breaker.
+
+- Code for testing purposes has been left in, but is commented out and denoted with "FOR TESTING."
+
+
+First, load the data (if you haven't already):
+```{r}
+lpi <- read.csv("LivingPlanetIndex_clean.csv", header=TRUE, sep=",")
+```
+
+
+Now, predict:
+```{r}
+#filter out columns we're not going to use in the model
+keeps = c('scientific_name', 'Common_name', 'Units', 'year', 'population')
+tData = lpi[keeps]
+
+#join units to get new units in order to reduce mismatches
+#populationMeasures file is a list of unit names and "new" unit names that were
+#re-labelled by hand to consolidate units
+popUnits = read.csv("populationMeasures.csv", header = TRUE, sep=",")
+tData = merge(tData, popUnits, by = "Units", all.x=TRUE)
+
+#do some data casts and pare down the columns again
+keeps = c('scientific_name', 'Common_name', 'Units', 'NewUnit', 'year', 'population.x')
+tData$Units = as.character(tData$Units)
+tData$NewUnit = as.character(tData$NewUnit)
+tData$NewUnit = ifelse(is.na(tData$NewUnit), tData$Units, tData$NewUnit)
+tData = tData[keeps]
+tData$Common_name = as.character(tData$Common_name)
+tData$scientific_name = as.character(tData$scientific_name)
+
+#there's a couple entries that read "no common name"
+#In these instances, use scientific name in place of common name
+tData$Common_name = ifelse(tData$Common_name == 'No common name', tData$scientific_name, tData$Common_name)
+tData = tData[order(tData$Common_name),] 
+
+
+#create dataframes to hold forecast and metadata results
+forecast = data.frame('Common_name'=character(), 'scientific_name'=character(), 'Point Forecast'=double(), 'Lo 80'=double(), 'Hi 80'=double(), 'Lo 95'=double(), 'Hi 95'=double(), 'year'=integer())
+stats = data.frame('Common_name'=character(), 'scientific_name'=character(), 'Units'=character(), 'modelRecordCount'=integer(), 'allPopRecords'=integer(), 'minYear'=integer(), 'maxYear'=integer(),'percentInterpolated'=double(), 'shapiroPass'=integer(), 'boxPass'=integer())
+
+trainingData = data.frame('Common_name'=character(), 'scientific_name'=character(), 'NewUnit'=character(), 'year'=integer(), 'population'=double(), 'interpolated'=double())
+
+#for each common name, run the model
+for (x in unique(tData$Common_name))
+{
+  #FOR TESTING
+  #print(x)
+  #x = 'American alligator'
+  
+  #get the entries for common name x and sum the population 
+  #for each year and unit
+  test = tData[which(tData$Common_name == x), ]
+  test = test %>% group_by(scientific_name, Common_name, NewUnit, year) %>% summarise(population = sum(population.x))
+  base = test
+  
+  #get label with most years
+  test2 = test %>% count(NewUnit, sort = TRUE)
+  winner = test2[which.max(test2$n),]
+  test = test[which(test$NewUnit == winner$NewUnit),]
+  
+  #get min and max year
+  minYear = min(test$year)
+  maxYear = max(test$year)
+  
+  #flag these as not interpolated
+  test$interpolated = 0
+  
+  #function to determine if the years are sequential
+  #do I need to interpolate?
+  sequential = function(x)
+  {
+    all(abs(diff(x)) == 1)
+  }
+  
+  #FOR TESTING
+  #take out a couple of years to test
+  #test = test[-2,]
+  
+  #if they're not sequential, interpolate
+  if(!sequential(test$year))
+  {
+    #FOR TESTING
+    #print('interpolated')
+    #print(x)
+    
+    #get the time span we need interpolated & approx()
+    nn = (maxYear - minYear) + 1
+    interpolated = as.data.frame(approx(test$year, test$population, n=nn))
+    colnames(interpolated) = c('year', 'population')
+    
+    #add other data to year & interpolated data
+    #I'm using [1] here because there's a couple instances
+    #where more than one scientific_name/taxonid has the same 
+    #common name
+    #In these cases, to avoid confusion, we are going to just take the first one
+    interpolated$scientific_name = unique(test$scientific_name)[1]
+    #interpolated$ID = unique(test$ID)[1]
+    interpolated$Common_name = unique(test$Common_name)[1]
+    interpolated$NewUnit = unique(test$NewUnit)[1]
+    
+    #flag these as interpolated
+    interpolated$interpolated = 1
+    
+    #get all interpolated years not in base set
+    missingYears = interpolated[which(!interpolated$year %in% test$year),]
+    
+    #union missing years to base set
+    interpolated = rbind(as.data.frame(test), as.data.frame(missingYears))
+    
+    #remove duplicates just in case
+    test = interpolated[!duplicated(interpolated),]
+  }
+  
+  #if an entry has less than four points, don't model it
+  #4 is sort of an arbitrary number, but we had some issues of having a few readings of the same number,
+  #which will cause the model to throw an error
+  #besides, a time series model based on that few points won't be very useful
+  if(nrow(test) > 4)
+  {
+    #create time series object
+    
+    #first, order data by year
+    test = test[order(test$year),]
+    pop <- ts(test$population, frequency = 1, start = c(minYear), end=c(maxYear))
+    
+    #plot time series
+    title = paste(x, " Time Series", sep="")
+    
+    #FOR TESTING
+    #par(mfrow = c(1,2)) 
+    #plot.ts(pop, main = title)
+    
+    #use auto.arima to select best arima model
+    #based on best aic
+    #all models predict until 2025
+    auto = auto.arima(pop, trace=FALSE, ic="aic", stepwise=FALSE, approximation=FALSE)
+    y = 2025 - maxYear
+    
+    #forecast & plot time series & forecast
+    f = forecast(auto, h=y)
+    plot(f, main = title)
+    
+    #add forecast to dataframe
+    fData = as.data.frame(f)
+    fData$year = rownames(fData)
+    #fData$ID = unique(test$ID)[1]
+    fData$Common_name = unique(test$Common_name)[1]
+    fData$scientific_name = unique(test$scientific_name)[1]
+    forecast = rbind(forecast, fData)
+    
+    #test normality of residuals
+    #tests the null hypothesis that the samples come from a normal distribution 
+    #if pvalue < 0.05 then we reject the null hypothesis, residuals are not normally distributed
+    #we want residuals to be normally distributed
+    
+    #if all the residuals are the same, just mark 0 (fail)
+    if(unique(auto$residuals) == 0)
+    {
+      shapiroPass = 0
+    } else if(length(auto$residuals) < 3) #if there aren't enough residuals to do the calculation, mark 0 (fail)
+    {
+      shapiroPass = 0
+    } else
+    {
+       s = shapiro.test(auto$residuals)
+       sp = s$p.value
+       if(sp < 0.05)
+        {
+          shapiroPass = 0
+        }
+       else
+        {
+          shapiroPass = 1
+        }
+    }
+    
+    # Box-Ljung test
+    #If the p value is greater than 0.05 then the residuals are independent which we want for the model to be accurate 
+    b = Box.test(auto$residuals, type = "Ljung-Box")
+    bp = b$p.value
+    
+    if(bp < 0.05 | is.na(bp))
+    {
+      boxPass = 0
+    } else
+    {
+      boxPass = 1
+    }
+    
+    #add metadata to dataframe
+    statsRow = data.frame('Common_name'=x, 'scientific_name'=unique(test$scientific_name)[1], 'Units'=unique(winner$NewUnit)[1], 'modelRecordCount'=nrow(test),                                        'allPopRecords'=nrow(base), 'minYear'=minYear, 'maxYear'=maxYear,
+                          'numberInterpolated'=sum(test$interpolated), 'shapiroPass'=shapiroPass, 'boxPass'=boxPass)
+    
+    stats = rbind(stats, statsRow)
+    
+    
+    trainingData = rbind(trainingData, as.data.frame(test))
+    
+  }
+  
+}
+
+#save forecasts and metadata
+write.csv(forecast, file = "timeSeriesForecasts_all.csv")
+write.csv(stats, file= "timeSeriesMetadata_all.csv")
+write.csv(trainingData, file= "trainingData_all.csv")
+
+```
+
+
+
