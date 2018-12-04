@@ -35,6 +35,23 @@
         <script type="text/javascript">
             function initViz2() {
                 var containerDiv = document.getElementById("ExploreViz2"),
+                    url = "https://public.tableau.com/views/PopAndClass/Dashboard1?:embed=y&:display_count=yes&publish=yes"
+
+                    options = {
+                        hideTabs: true,
+                        onFirstInteractive: function () {
+                            console.log("Run this code when the viz has finished loading.");
+                        }
+                    };
+
+                // Create a viz object and embed it in the container div.
+                var viz = new tableau.Viz(containerDiv, url, options);
+            }
+        </script>
+
+        <script type="text/javascript">
+            function initViz3() {
+                var containerDiv = document.getElementById("ExploreViz3"),
                     url = "https://public.tableau.com/views/CurrentClassifications/CurrentClassifications?:embed=y&:display_count=yes&publish=yes"
 
                     options = {
@@ -110,7 +127,7 @@
         <![endif]-->
     </head>
 
-    <body data-spy="scroll" data-target="#header" onload="initViz(); initViz2();">
+    <body data-spy="scroll" data-target="#header" onload="initViz(); initViz2(); initViz3();">
 
         <!--Start Hedaer Section-->
         <section id="header">
@@ -410,12 +427,14 @@
                             <img src="img/RoadblocksinConservation.png">
 
                             <div style="width: 800px; margin-left: auto; margin-right: auto">
-                                <p align="left">Animal population data is hard to come by. It's not easy to access or understand. It is often incomplete, silo-ed, and messy. And, there are a little-to-no future population predictions.
+                                <p align="left"><br/>Animal population data is hard to come by. It's not easy to access or understand. It is often incomplete, silo-ed, and messy. And, there are a little-to-no future population predictions.
                                     Until now, qualitative risk identification for single species at a time was the only way of determining the threat level of that species becoming endangered.
                                     We sought to create a one-stop-shop with historical populations and <span style="font-style:italic; font-weight: bold;">forecasted</span> populations calculated from our time series models.
                                     <br/><br/>
                                     Each species has population measurements over different periods of time and with many different sampling methods. Our project takes all of this data, cleans and aggregates it, and creates a time series model
 								                    and forecast for each individual species.
+                                    <br/><br/>
+                                    ...paragraph about IUCN process in determining classification...
                                 </p>
                             </div>
                         </div>
@@ -446,7 +465,6 @@
                           - There are many different ways to measure species populations. Look for the unit of measurement to the left of the population line graph.<br />
                           - The data are not uniform across time. Certain species will have longer or more consistent periods of observation than others. This can give us an impression of the amount of resources devoted to a species.<br />
                           - No matter what year the population data ends, we forecast each species population through 2025 so the information is relevant <span style="font-style: italic">today</span>
-                        </p>
                     </div>
                 </div>
             </div>
@@ -458,10 +476,26 @@
                 <div id="ExploreViz" align="center"></div>
             </div>
 
-            <p><br /></p>
+            <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
+                <p align="left"><br />Now take a look at all the species that our model predicts will have declining populations by 2025.
+                    We've also added the IUCN classifications. You'll notice in some cases that the classification trend doesn't align with the population or forecasts.
+                    This is one of the biggest pain points in conservation analysis, aligning data.<br /></p>
+            </div>
 
             <div id="vizDiv2" align="center">
                 <div id="ExploreViz2" align="center"></div>
+            </div>
+
+            <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
+                <p align="left"><br />Viz 2 Recap.<br /></p>
+            </div>
+
+            <div id="vizDiv3" align="center">
+                <div id="ExploreViz3" align="center"></div>
+            </div>
+
+            <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
+                <p align="left"><br />Notice how the risk of endangerment varies significantly by the species' Class.<br /></p>
             </div>
 
             <p><br /><br /></p>
@@ -507,8 +541,8 @@
                                 <div class="sigle_counter_item">
                                     <img src="img/hand.png" alt="">
                                     <div class="counter_text">
-                                        <span class="counter">129</span>
-                                        <p>number of current critically endangered species</p>
+                                        <span class="counter">9088</span>
+                                        <p>endangered species</p>
                                     </div>
                                 </div>
                             </div>
@@ -518,8 +552,8 @@
                                 <div class="sigle_counter_item">
                                     <img src="img/hand.png" alt="">
                                     <div class="counter_text">
-                                        <span class="counter">129</span>
-                                        <p>number of current critically endangered species</p>
+                                        <span class="counter">5962</span>
+                                        <p>critically endangered species</p>
                                     </div>
                                 </div>
                             </div>
@@ -530,7 +564,40 @@
                                     <img src="img/hand.png" alt="">
                                     <div class="counter_text">
                                         <span class="counter">60</span>
-                                        <p>percent of overall decrease in global vertebrate population sizes</p>
+                                        <p>percent decrease in global vertebrate populations</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="counter_item text-center">
+                                <div class="sigle_counter_item">
+                                    <img src="img/hand.png" alt="">
+                                    <div class="counter_text">
+                                        <span class="counter">68</span>
+                                        <p>species our model predicts will decline in population by 2025</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="counter_item text-center">
+                                <div class="sigle_counter_item">
+                                    <img src="img/hand.png" alt="">
+                                    <div class="counter_text">
+                                        <span class="counter">1</span>
+                                        <p>...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="counter_item text-center">
+                                <div class="sigle_counter_item">
+                                    <img src="img/hand.png" alt="">
+                                    <div class="counter_text">
+                                        <span class="counter">2</span>
+                                        <p>...</p>
                                     </div>
                                 </div>
                             </div>
