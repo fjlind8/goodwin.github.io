@@ -17,9 +17,16 @@
 #vizDiv3 {
     margin-left: auto;
     margin-right: auto;
-    width: 1200px;
     padding: 10px;
     border: 5px solid green;
+}
+
+#vizDiv4 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    padding: 10px;
+    border: 5px solid darkgreen;
 }
 
 .inspirer {

@@ -52,6 +52,23 @@
         <script type="text/javascript">
             function initViz3() {
                 var containerDiv = document.getElementById("ExploreViz3"),
+                    url = "https://public.tableau.com/views/GoogleTrends_8/Dashboard1?:embed=y&:display_count=yes&publish=yes"
+
+                    options = {
+                        hideTabs: true,
+                        onFirstInteractive: function () {
+                            console.log("Run this code when the viz has finished loading.");
+                        }
+                    };
+
+                // Create a viz object and embed it in the container div.
+                var viz = new tableau.Viz(containerDiv, url, options);
+            }
+        </script>
+
+        <script type="text/javascript">
+            function initViz4() {
+                var containerDiv = document.getElementById("ExploreViz4"),
                     url = "https://public.tableau.com/views/CurrentClassifications/CurrentClassifications?:embed=y&:display_count=yes&publish=yes"
 
                     options = {
@@ -127,7 +144,7 @@
         <![endif]-->
     </head>
 
-    <body data-spy="scroll" data-target="#header" onload="initViz(); initViz2(); initViz3();">
+    <body data-spy="scroll" data-target="#header" onload="initViz(); initViz2(); initViz3(); initViz4();">
 
         <!--Start Hedaer Section-->
         <section id="header">
@@ -481,7 +498,7 @@
 
                 <p align="left"><br />Now take a look at all the species that our model predicts will have declining populations by 2025.
                     We've also added the IUCN classifications. You'll notice in some cases that the classification trend doesn't align with the population or forecasts.
-                    This is one of the biggest pain points in conservation analysis, aligning data. The background section outlined the Redlist classification process,
+                    This is one of the biggest pain points in conservation analysis - aligning data between sources. The background section outlined the Redlist classification process,
                     so keep in mind the population data from the WWF is not necessarily what the IUCN uses in their classification ratings.<br /></p>
             </div>
 
@@ -492,12 +509,23 @@
             <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
                 <p align="left"><br />Viz 2 Recap.<br /></p>
 
-                <p align="left"><br />Despite not having perfect alignment between the Redlist and WWF, and not having a ton of population data in general,
-                  the Redlist is still the authority on all species classifications. Here we show the current classifications by animal Class.<br /></p>
+                <p align="left">We also wanted to show the relative Google search trends for species by country, to help raise awareness
+                  in places where people may not know about particular species.</p>
             </div>
 
             <div id="vizDiv3" align="center">
                 <div id="ExploreViz3" align="center"></div>
+            </div>
+
+            <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
+                <p align="left"><br />Viz 3 Recap.<br /></p>
+
+                <p align="left"><br />Despite not having perfect alignment between the Redlist and WWF, and not having a ton of population data in general,
+                  the Redlist is still the authority on all species classifications. Here we show the current classifications by animal Class.<br /></p>
+            </div>
+
+            <div id="vizDiv4" align="center">
+                <div id="ExploreViz4" align="center"></div>
             </div>
 
             <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
@@ -556,7 +584,7 @@
                         <div class="col-md-3">
                             <div class="counter_item text-center">
                                 <div class="sigle_counter_item">
-                                    <img src="img/greencamel.png" alt="">
+                                    <img src="img/greenkiwi.png" alt="">
                                     <div class="counter_text">
                                         <span class="counter">5962</span>
                                         <p>critically endangered species</p>
@@ -567,7 +595,7 @@
                         <div class="col-md-3">
                             <div class="counter_item text-center">
                                 <div class="sigle_counter_item">
-                                    <img src="img/greenkiwi.png" alt="">
+                                    <img src="img/greencamel.png" alt="">
                                     <div class="counter_text">
                                         <span class="counter">60</span>
                                         <p>percent decrease in global vertebrate populations</p>
@@ -578,7 +606,7 @@
                         <div class="col-md-3">
                             <div class="counter_item text-center">
                                 <div class="sigle_counter_item">
-                                    <img src="img/greenrabbit.png" alt="">
+                                    <img src="img/greenbear.png" alt="">
                                     <div class="counter_text">
                                         <span class="counter">68</span>
                                         <p>species our model predicts will decline in population by 2025</p>
@@ -589,7 +617,7 @@
                         <div class="col-md-3">
                             <div class="counter_item text-center">
                                 <div class="sigle_counter_item">
-                                    <img src="img/greenbear.png" alt="">
+                                    <img src="img/greenrabbit.png" alt="">
                                     <div class="counter_text">
                                         <span class="counter">1</span>
                                         <p>...</p>
@@ -668,16 +696,18 @@
 							While we can glean great insights from population information for species with a long history of consistent and well recorded data, there are many other species where this is simply not the reality.
 							Though usually lack of data is a dead end for many projects, in relevance to animal conservation, lack of data for species is an important insight on its own, and a potentially crucial one too.
 
-							There are a few reasons why there is a lack of data for certain species:</p>
+							There are a few reasons why there is a lack of data for certain species:<br /><br />
 
-							<p align="left">- No funding for some years<br />
-							- Inability to measure population in certain locations<br />
-							- Organizations don’t want to publicize information about a threatened and hunted species
-							- Simply no research is being conducted on that species
+              <ul>
+							    <li>- No funding for some years</li>
+							    <li>- Inability to measure population in certain locations</li>
+							    <li>- Organizations don’t want to publicize information about a threatened and hunted species</li>
+							    <li>- Simply no research is being conducted on that species</li>
+              </ul></p>
 
 							<br /><br />
 
-              One of the greatest challenges in animal conservation is not knowing what we don’t know. Our project has helped us identify some of these kinds of things.
+              <p align="left">One of the greatest challenges in animal conservation is not knowing what we don’t know. Our project has helped us identify some of these kinds of things.
 							But identification of these species and their lack of population data sheds light to the areas of conservation that have yet to be explored and give upcoming conservationists new adventures to tackle.
 							</p>
 
