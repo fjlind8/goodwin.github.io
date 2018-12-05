@@ -84,3 +84,5 @@ You can also filter the results to choose from in the table by selecting either 
 We can see a wide variety of countries reporting populations for the Short-eared owl, but most of the searches are coming from the United States.
 
 
+## Closing Thoughts
+We hope that this walkthrough will help educate others on how to use our project, encourage exploration of conservation and biodiversity data and topics, and inspire action. Thank you!
