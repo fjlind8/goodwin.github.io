@@ -521,7 +521,7 @@
 
                             <p><br/>The purpose of our product is to educate, explore, and inspire.<br/><br/></p>
 
-                            <img src="img/PurposeoftheGoodWinProject.png">
+                            <img src="img/PurposeoftheGoodWinProject.png" style="width: 800px; height: 450px;">
 
                             <p><br/>Sounds easy enough, right? Well, there are some difficulties in achieving these goals.<br/><br/></p>
 
@@ -535,7 +535,6 @@
                                     Each species has population measurements over different periods of time and with many different sampling methods. Our project takes all of this data, cleans and aggregates it, and creates a time series model
 								                    and forecast for each individual species.
                                     <br/><br/>
-                                    ...paragraph about IUCN process in determining classification...
                                 </p>
                             </div>
                         </div>
@@ -556,34 +555,42 @@
 
                     <div style="width: 800px; margin-left: auto; margin-right:auto">
                         <p align="left">Here's where we "turn you loose"! Below we have a few visualizations that demonstrate the results of our predictive model, and showcase
-                          some of the most interesting findings from our data. If you're stuck anywhere, refer to <a href="https://github.com/fjlind8/fjlind8.github.io/blob/master/README.md">our GitHub repository</a> for some walkthrough and interpretations.
+                          some of the most interesting findings from our data. If you're stuck anywhere on the first two visuals, or if you just want some more information, refer to
+                          <a href="https://github.com/fjlind8/fjlind8.github.io"><span style="font-size: 125%; font-weight: bold;">our GitHub repository</span></a> for a detailed walkthrough of how to interpret the data.
 
-                          <br /><br />
+                          <br/><br/>
 
-                          In this first visual, to examine an individual species' past and predicted populations, start by selecting a country on the map, and then a species from the generated list on the right.
-                          The population and forecast will then appear on the bottom graph. A few things to keep in mind:</p>
+                          In this first visual, to examine an individual species' past and predicted populations, start by selecting a country on the map to view a list of species that live there. Then select a species from the generated list on the right.
+                          The population and forecast will then appear on the bottom graph. Keep a few things in mind:
 
-                          - There are many different ways to measure species populations. Look for the unit of measurement to the left of the population line graph.<br />
-                          - The data are not uniform across time. Certain species will have longer or more consistent periods of observation than others. This can give us an impression of the amount of resources devoted to a species.<br />
-                          - No matter what year the population data ends, we forecast each species population through 2025 so the information is relevant <span style="font-style: italic">today</span>
+                          <ul>
+                              <li>- There are many different ways to measure species populations. Look for the unit of measurement to the left of the population line graph.</li>
+                              <li>- The data are not uniform across time. Certain species will have longer or more consistent periods of observation than others. This can give us an impression of the amount of resources devoted to a species.</li>
+                              <li>- No matter what year the population data ends, we forecast each species population through 2025 so the information is relevant <span style="font-style: italic">today</span></li>
+                          </ul>
+                          <br/><br/><br/><br/><br/>
+                        </p>
                     </div>
+                    <div id="vizDiv" align="center">
+                        <div id="ExploreViz" align="center"></div>
+                    </div>
+                    <p><br/><br/><br/><br/><br/></p>
                 </div>
             </div>
             <!--End of col-md-2-->
 
-            <p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
+            <!--<p><br/><br/><br/><br/><br/><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
+            g-->
 
-            <div id="vizDiv" align="center">
-                <div id="ExploreViz" align="center"></div>
-            </div>
 
             <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
-                <p align="left"><br />Viz 1 Recap.<br /></p>
-
-                <p align="left"><br />Now take a look at all the species that our model predicts will have lower populations 2025 than in 2018.
-                    We've also added the historical IUCN Red List classifications. You'll notice in some cases that the classification trend doesn't align with the population or forecasts.
-                    Keep in mind that the population data from the WWF (what we're using) is not necessarily what the IUCN uses in their classification ratings.
-                    This is one of the biggest pain points in conservation analysis - aligning data between sources.<br /></p>
+                <p align="left"><br/><br/><br/><br/><br/>In the next visual, you'll observe a subset of the species listed above - the ones that our model predicts will have lower populations 2025 than in 2018, or are currently endangered.
+                    These species have the most severe, current threats that could cause them to go extinct without some sort of intervention.<br/><br/>
+                    We added the historical, official IUCN Red List classifications (see the Data section for more information) to the trend graphs, for more context around how the species has been classified over time.
+                    You'll notice in some cases that the classification pattern doesn't align with the population or forecast trend.
+                    The population data from the WWF (what we're using, again, see the Data section for more information) is not necessarily what the IUCN uses in their classification ratings. It is, however, the best publicly available database for populations of thousands of species.
+                    One of the biggest pain points in conservation analysis is aligning data between sources. We'll cover that more in the Data section.
+                    <br/><br/>For now, take a look at these species that are in the most need of help.<br/><br/><br/><br/><br/>
             </div>
 
             <div id="vizDiv2" align="center">
@@ -591,10 +598,16 @@
             </div>
 
             <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
-                <p align="left"><br />Viz 2 Recap.<br /></p>
+                <p align="left"><br/><br/><br/><br/><br/>You've now seen some of the most at-risk species in the world. In order to protect these species, we need to generate funding and awareness.
+                    Below we show where each species lives and a way of quantifying the awareness through Google Trends popularity rankings.
 
-                <p align="left">We also wanted to show the relative Google search trends for species by country, to help raise awareness
-                  in places where people may not know about particular species.</p>
+                    <br/><br/>The map on the right will show the countries where a particular search term is most popular in dark blue.
+                    We cannot compare popularity between <span style="font-weight: italic;">species</span>, only between <span style="font-weight: italic;">countries</span> for the same search term (we used the common names) over time.
+                    So, looking at the Blue whale, for example, you'll notice it is most commonly searched in Bangladesh, followed by Pakistan and India.
+                    This could be because a Blue whale was observed in an inlet of the Indian Ocean for the first time ever, <a href="">back on June 1, 2018</a>.
+                    Looking through some of the endangered or critically endangereed species, you may notice that the awareness is fairly low in the countries it resides, like the Golden lancehead. Help spread the word about these species!
+                    <br/><br/><br/><br/><br/>
+                </p>
             </div>
 
             <div id="vizDiv3" align="center">
@@ -602,10 +615,12 @@
             </div>
 
             <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
-                <p align="left"><br />Viz 3 Recap.<br /></p>
+                <p align="left"><br/><br/><br/><br/><br/>Having noticed where the species live in the previous visual, we hope it was clear that species all across the world are facing extinction.
+                  It's not just particular countries or regions.<br/><br/>
 
-                <p align="left"><br />Despite not having perfect alignment between the IUCN Red List and WWF, and not having a ton of population data in general,
-                  the IUCN Red List is still the authority on all species classifications. Here we show the current classifications by animal Class.<br /></p>
+                  It's also not just particular ecosystems or classes of species. The IUCN Red List is the world's authority on the classification of animals, plants, and fungi.
+                  Below you will see the percent of assessed species that fall into each category, grouped by the species' class.
+                  <br/><br/><br/><br/><br/></p>
             </div>
 
             <div id="vizDiv4" align="center">
@@ -613,15 +628,10 @@
             </div>
 
             <div class="portfolio_title" style="width: 800px; margin-left: auto; margin-right:auto">
-                <p align="left"><br />Notice how the risk of endangerment varies significantly by the species' Class.<br /></p>
-            </div>
-
-            <p><br /><br /></p>
-
-            <div class="col-md-12">
-                <div class="portfolio_title">
-                    <p>More descriptive stories / examples?</p>
-                </div>
+                <p align="left"><br/><br/><br/><br/><br/>Amphibians have the highest percentage of their species in an endangered or extinct category.
+                  100% of the species assessed by IUCN that have any threat listed have at least one human-caused threat such as logging and wood harvesting, housing, and urban development.
+                  Humans have caused problems for many species, in particular amphibians. While they are the class most in need, they are not alone.
+                  <br/><br/>Species all over the world need our help. Keep on reading to learn more about the data we used for our project, or go to the Get Involved section to find out how you can most effectively contribute to the conservation cause!<br/><br/><br/></p>
             </div>
         </section>
         <!--end of portfolio-->
@@ -701,10 +711,10 @@
                         <div class="col-md-3">
                             <div class="counter_item text-center">
                                 <div class="sigle_counter_item">
-                                    <img src="img/greenrabbit.png" alt="">
+                                    <img src="img/greenfrog.png" alt="">
                                     <div class="counter_text">
-                                        <span class="counter">1</span>
-                                        <p>...</p>
+                                        <span class="counter">100</span>
+                                        <p>percent of IUCN assessed amphibians facing human-caused threats</p>
                                         <!--% of data with no google trends history (X / 2839)-->
                                     </div>
                                 </div>
@@ -746,21 +756,25 @@
             <div class="col-md-12">
                 <div class="portfolio_title">
                     <h2>Data</h2>
-
                     <div class="row">
-						<div style="width: 800px; margin-left: auto; margin-right: auto">
+						<div style="width: 1000px; margin-left: auto; margin-right: auto">
 							<div id="dataInspiration">
-										<div class="insprirer" id="iucn" style="float: left; margin-left: 50px;">
+										<div id="iucn" style="float: left;">
 											<a href="https://www.iucnredlist.org/">
 												<img src="img/IUCN_Red_List.png" style="width: 200px; height: 180px; border: 1px solid;">
 											</a>
 										</div>
-										<div class="insprier" id="lpi" style="float: right; margin-right: 50px;">
+                    <div id="lpi" style="float: right; margin-right: 50px;">
+											<a href="https://trends.google.com/trends/?geo=US">
+											  <img src="img/googletrends.jpg" style="width: 200px; height: 180px; border: 1px solid;">
+											</a>
+										</div>
+										<div id="lpi" style="float: right; margin-right: 50px;">
 											<a href="http://livingplanetindex.org/home/index">
 											  <img src="img/ZSL_logo.png" style="width: 200px; height: 180px; border: 1px solid;">
 											</a>
 										</div>
-										<div class="insprier" id="lpi" style="float: right; margin-right: 50px;">
+										<div id="lpi" style="float: right; margin-right: 50px;">
 											<a href="http://livingplanetindex.org/home/index">
 											  <img src="img/wwf.png" style="width: 200px; height: 180px; border: 1px solid;">
 											</a>
@@ -771,15 +785,15 @@
 					<br />
 					<div class="row">
 						<div style="width: 800px; margin-left: auto; margin-right: auto">
-							<p align="left">Our two main sources of data are the International Union for Conservation of Nature's Red List of Endangered Species and the Living Planet Index (managed by the Zoological Society of London & the World Wildlife Foundation).
+							<p align="left">Our two main sources of data are the International Union for Conservation of Nature's (IUCN) Red List of Endangered Species and the Living Planet Index (managed by the Zoological Society of London & the World Wildlife Foundation).
 							The population data we used came from the Living Planet Index's data portal, which is an accumulation of thousands of studies and publications of wildlife data. The IUCN Red List is the organization responsible for assessing
 							and assigning an endangerment level to each species. It has a wealth of information about habitats, threats, and conservations efforts for each species. With the IUCN assessment data we can get a general idea of population
 							data by looking at assessments over time (if a species has been assessed more than once).
 
-							<br /><br />
+							<br/><br/>
 
 							While we can glean great insights from population information for species with a long history of consistent and well recorded data, there are many other species where this is simply not the reality.
-							Though usually lack of data is a dead end for many projects, in relevance to animal conservation, lack of data for species is an important insight on its own, and a potentially crucial one too.
+							Though lack of data is a dead end for many projects, in relevance to animal conservation, lack of data for species is an important insight on its own, and a potentially crucial one too.
 
 							There are a few reasons why there is a lack of data for certain species:<br /><br />
 
@@ -794,7 +808,7 @@
 
               <p align="left">One of the greatest challenges in animal conservation is not knowing what we don’t know. Our project has helped us identify some of these kinds of things.
 							But identification of these species and their lack of population data sheds light to the areas of conservation that have yet to be explored and give upcoming conservationists new adventures to tackle.
-							</p>
+              <br/><br/><br/><br/><br/></p>
 
 						</div>
 					</div>
@@ -883,6 +897,17 @@
                         <div class="event_news">
                             <div class="event_single_item fix">
                                 <div class="event_news_img floatleft">
+                                    <a href="https://sanimal.net/"><img src="img/sanimal.png" style="padding-top: 30px; padding-bottom: 30px; border: 2px solid black;" alt=""></a>
+                                </div>
+                                <div class="event_news_text">
+                                    <a href="https://sanimal.net/"><h4>Sanimal</h4></a>
+                                    <p>Sanimal is a wildlife blog founded by an expert that we had the opportunity to speak with, Sandy Slovikosky.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event_news">
+                            <div class="event_single_item fix">
+                                <div class="event_news_img floatleft">
                                     <a href="https://www.wildlifealliance.org"><img src="img/WildlifeAlliance.png" style="padding-top: 15px; padding-bottom: 15px; background-color: teal; border: 2px solid black;" alt=""></a>
                                 </div>
                                 <div class="event_news_text">
@@ -899,17 +924,6 @@
                                 <div class="event_news_text">
                                     <a href="https://www.volunteerhq.org/volunteer-abroad-projects/environment-and-conservation/?utm_source=volunteerforever.com&utm_medium=referral&utm_campaign=vf-2017-best-volunteer-abroad-programs-organizations-projects"><h4>International Volunteer HQ</h4></a>
                                     <p>Looking for your next vacation? Find a volunteer opportunity abroad and help the environment at the same time!</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="event_news">
-                            <div class="event_single_item fix">
-                                <div class="event_news_img floatleft">
-                                    <a href="https://www.conservationfund.org/"><img src="img/ConservationFund.png" style="padding-top: 30px; padding-bottom: 30px; background-color: blue; border: 2px solid black;" alt=""></a>
-                                </div>
-                                <div class="event_news_text">
-                                    <a href="https://www.conservationfund.org/"><h4>The Conservation Fund</h4></a>
-                                    <p>The Conservation Fund has preserved more than 8 million acres of land in the US.</p>
                                 </div>
                             </div>
                         </div>
@@ -1002,7 +1016,7 @@
                                     </div>
 
                                     <p class="blog_news_content"><br />Eric has a background in Applied Mathematics, and now Data Science!
-                                      He loves cooking, hiking, and Planet Earth documentaries. His favorite animals are the snow leopard, peregrine falcon, and giant squid.</p>
+                                      He loves cooking, hiking, and BBC Earth documentaries. His favorite animals are the snow leopard, peregrine falcon, and giant squid.</p>
                                 </div>
                             </div>
                         </div>
@@ -1053,7 +1067,9 @@
                 <div class="row text-center">
                     <div class="col-md-6">
                         <div class="copyright">
-                            <p>We hope you enjoyed learning more about conservation!</p>
+                            <p>We hope you enjoyed learning more about conservation!<br/>
+                              Refer to <a href="https://github.com/fjlind8/fjlind8.github.io">our GitHub repository</a> to learn more.</p>
+                            <p align="center">© 2018 The GoodWin Project<br/><br/><br/></p>
                         </div>
                     </div>
                 </div>
